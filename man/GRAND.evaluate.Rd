@@ -48,7 +48,6 @@ GRAND Evaluation of Network Data
   For more details, see the "simulation experiments" section of Liu, Bi, and Li (2025).
 }
 \examples{
-\donttest{
 # Generate and privatize a network
 network <- LSM.Gen(n = 500, k = 2, K = 3)
 result <- GRAND.privatize(A = network$A, K = 2, idx = 1:250, eps = c(1, 2, 5, 10), model = "LSM")
@@ -56,7 +55,6 @@ result <- GRAND.privatize(A = network$A, K = 2, idx = 1:250, eps = c(1, 2, 5, 10
 evaluation <- GRAND.evaluate(result)
 # Evaluate only degree and triangle statistics
 evaluation_subset <- GRAND.evaluate(result, statistics = c("degree", "triangle"))
-}
 }
 \references{
 S. Liu, X. Bi, and T. Li. GRAND: Graph Release with Assured Node Differential Privacy. 

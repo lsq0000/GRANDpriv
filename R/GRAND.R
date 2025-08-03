@@ -75,12 +75,10 @@ Add.Laplace <- function(X, eps = 1) {
 #'   arXiv preprint arXiv:2507.00402, 2025.
 #' @export
 #' @examples
-#' \donttest{
 #' # Generate a network with 500 nodes, 2D latent space, 3 communities
 #' network <- LSM.Gen(n = 500, k = 2, K = 3)
 #' # Generate with target average degree of 50
 #' network2 <- LSM.Gen(n = 500, k = 2, K = 3, avg.d = 50)
-#' }
 LSM.Gen <- function(n, k, K, avg.d = NULL) {
   alpha <- runif(n, 1, 3)
   alpha <- -alpha / 2
@@ -141,7 +139,7 @@ GRAND.one.node <- function(A, given.index, new.index, given.Z, given.alpha = NUL
   return(fit)
 }
 
-GRAND.estimate <- function(A, K, holdout.index, release.index, model = c("LSM", "RDPG"), niter = 500) {
+GRAND.estimate <- function(A, K, holdout.index, release.index, model = c("LSM", "RDPG"), niter = 500, verbose = TRUE) {
   model <- match.arg(model)
 
   m <- length(holdout.index)
@@ -164,7 +162,7 @@ GRAND.estimate <- function(A, K, holdout.index, release.index, model = c("LSM", 
       stop(paste0("Potential deficiency of ", sum(colSums(abs(fit.holdout$Z)) < 1e-4), "."))
     }
 
-    cat("PGD used", length(fit.holdout$obj), "iterations.\n")
+    if (verbose) cat("PGD used", length(fit.holdout$obj), "iterations.\n")
 
     Z.holdout <- fit.holdout$Z
     alpha.holdout <- fit.holdout$alpha
@@ -216,6 +214,7 @@ GRAND.estimate <- function(A, K, holdout.index, release.index, model = c("LSM", 
 #' @param model Character. Model type, either "LSM" (Latent Space Model) or "RDPG" (Random Dot Product Graph). Default is "LSM".
 #' @param niter Integer. Number of iterations for the optimization algorithm. Default is 500.
 #' @param rho Numeric. Parameter controlling the neighborhood size for conditional distributions. Default is 0.05.
+#' @param verbose Logical. Whether to print progress messages. Default is TRUE.
 #' @details 
 #'   The GRAND privatization algorithm consists of the following steps:
 #'   \enumerate{
@@ -257,13 +256,11 @@ GRAND.estimate <- function(A, K, holdout.index, release.index, model = c("LSM", 
 #'   arXiv preprint arXiv:2507.00402, 2025.
 #' @export
 #' @examples
-#' \donttest{
 #' # Generate a sample network
 #' network <- LSM.Gen(n = 500, k = 2, K = 3)
 #' # Privatize the first 250 nodes with epsilon = 1, 2, 5, 10
 #' result <- GRAND.privatize(A = network$A, K = 2, idx = 1:250, eps = c(1, 2, 5, 10), model = "LSM")
-#' }
-GRAND.privatize <- function(A, K, idx, eps = 1, model = c("LSM", "RDPG"), niter = 500, rho = 0.05) {
+GRAND.privatize <- function(A, K, idx, eps = 1, model = c("LSM", "RDPG"), niter = 500, rho = 0.05, verbose = TRUE) {
   model <- match.arg(model)
 
   n <- nrow(A)
@@ -280,7 +277,8 @@ GRAND.privatize <- function(A, K, idx, eps = 1, model = c("LSM", "RDPG"), niter 
                         holdout.index = holdout.idx,
                         release.index = idx,
                         model = model,
-                        niter = niter)
+                        niter = niter,
+                        verbose = verbose)
   X.trans <- if (model == "LSM") cbind(fit$alpha, fit$Z) else fit$Z
 
   X1.hat <- X.trans[idx, , drop = FALSE]
@@ -322,7 +320,7 @@ GRAND.privatize <- function(A, K, idx, eps = 1, model = c("LSM", "RDPG"), niter 
   GRAND.result <- list()
 
   for (jj in 1:L) {
-    cat(paste0("Calling GRAND with \u03B5=", eps[jj], ".\n"))
+    if (verbose) cat(paste0("Calling GRAND with \u03B5=", eps[jj], ".\n"))
     X1.dip <- DIP.multivariate(X1.hat, eps[jj], X2.hat, rho)
 
     if (model == "LSM") {
@@ -342,11 +340,11 @@ GRAND.privatize <- function(A, K, idx, eps = 1, model = c("LSM", "RDPG"), niter 
                                g1.grand = g1.dip,
                                X1.grand = X1.dip)
   }
-  cat("Finish GRAND.\n")
+  if (verbose) cat("Finish GRAND.\n")
 
   Laplace.result <- list()
   for (jj in 1:L) {
-    cat(paste0("Calling Laplace with \u03B5=", eps[jj], ".\n"))
+    if (verbose) cat(paste0("Calling Laplace with \u03B5=", eps[jj], ".\n"))
     X1.Lap <- Add.Laplace(X = X1.hat, eps = eps[jj])
 
     if (model == "LSM") {
@@ -366,7 +364,7 @@ GRAND.privatize <- function(A, K, idx, eps = 1, model = c("LSM", "RDPG"), niter 
                                  g1.Lap = g1.Lap,
                                  X1.Lap = X1.Lap)
   }
-  cat("Finish Laplace.\n")
+  if (verbose) cat("Finish Laplace.\n")
 
   return(list(non.private.result = non.private.result, GRAND.result = GRAND.result, Laplace.result = Laplace.result, eps = eps))
 }
@@ -501,7 +499,6 @@ get.v <- function(g) {
 #'   arXiv preprint arXiv:2507.00402, 2025.
 #' @export
 #' @examples
-#' \donttest{
 #' # Generate and privatize a network
 #' network <- LSM.Gen(n = 500, k = 2, K = 3)
 #' result <- GRAND.privatize(A = network$A, K = 2, idx = 1:250, eps = c(1, 2, 5, 10), model = "LSM")
@@ -509,7 +506,6 @@ get.v <- function(g) {
 #' evaluation <- GRAND.evaluate(result)
 #' # Evaluate only degree and triangle statistics
 #' evaluation_subset <- GRAND.evaluate(result, statistics = c("degree", "triangle"))
-#' }
 GRAND.evaluate <- function(result, statistics = c("degree", "vshape", "triangle", "eigen", "harmonic")) {
   statistic_funcs <- list(degree = GRAND.evaluate.degree,
                           vshape = GRAND.evaluate.vshape,
