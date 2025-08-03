@@ -49,10 +49,10 @@ Generate Latent Space Model Network
   For more details, see the "simulation studies" section of Ma, Ma, and Yuan (2020), noting that our implementation has slight differences.
 }
 \examples{
-# Generate a network with 500 nodes, 2D latent space, 3 communities
-network <- LSM.Gen(n = 500, k = 2, K = 3)
-# Generate with target average degree of 50
-network2 <- LSM.Gen(n = 500, k = 2, K = 3, avg.d = 50)
+# Generate a network with 400 nodes, 2D latent space, 3 communities
+network <- LSM.Gen(n = 400, k = 2, K = 3)
+# Generate with target average degree of 40
+network2 <- LSM.Gen(n = 400, k = 2, K = 3, avg.d = 40)
 }
 \references{
 P. D. Hoff, A. E. Raftery, and M. S. Handcock. Latent space approaches to social network analysis. 

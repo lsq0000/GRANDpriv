@@ -63,9 +63,9 @@ GRAND Privatization of Network Data
 }
 \examples{
 # Generate a sample network
-network <- LSM.Gen(n = 500, k = 2, K = 3)
-# Privatize the first 250 nodes with epsilon = 1, 2, 5, 10
-result <- GRAND.privatize(A = network$A, K = 2, idx = 1:250, eps = c(1, 2, 5, 10), model = "LSM", verbose = FALSE)
+network <- LSM.Gen(n = 400, k = 2, K = 3, avg.d = 40)
+# Privatize the first 200 nodes with epsilon = 1, 2, 5, 10
+result <- GRAND.privatize(A = network$A, K = 2, idx = 1:200, eps = c(1, 2, 5, 10), model = "LSM")
 }
 \references{
 P. D. Hoff, A. E. Raftery, and M. S. Handcock. Latent space approaches to social network analysis. 

@@ -49,8 +49,8 @@ GRAND Evaluation of Network Data
 }
 \examples{
 # Generate and privatize a network
-network <- LSM.Gen(n = 500, k = 2, K = 3)
-result <- GRAND.privatize(A = network$A, K = 2, idx = 1:250, eps = c(1, 2, 5, 10), model = "LSM", verbose = FALSE)
+network <- LSM.Gen(n = 400, k = 2, K = 3, avg.d = 40)
+result <- GRAND.privatize(A = network$A, K = 2, idx = 1:200, eps = c(1, 2, 5, 10), model = "LSM")
 # Evaluate results for all statistics
 evaluation <- GRAND.evaluate(result)
 # Evaluate only degree and triangle statistics

@@ -44,14 +44,14 @@ The package requires the following R packages:
 library(GRANDpriv)
 
 # Generate a sample network using Latent Space Model
-# Note: Use larger networks (n >= 500) for better stability
-network <- LSM.Gen(n = 500, k = 2, K = 3)
+# Note: Use larger networks (n >= 1000) for better stability
+network <- LSM.Gen(n = 400, k = 2, K = 3, avg.d = 40)
 
-# Privatize the first 250 nodes with different privacy budgets
+# Privatize the first 200 nodes with different privacy budgets
 result <- GRAND.privatize(
   A = network$A, 
   K = 2, 
-  idx = 1:250, 
+  idx = 1:200, 
   eps = c(1, 2, 5, 10), 
   model = "LSM"
 )
