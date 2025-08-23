@@ -1,8 +1,6 @@
 # GRANDpriv: Graph Release with Assured Node Differential Privacy
 
-<img src="https://img.shields.io/badge/version-v0.1.3-blue.svg" alt="Version">
-[![CRAN](https://img.shields.io/badge/CRAN-available-brightgreen.svg)](https://CRAN.R-project.org/package=GRANDpriv)
-[![arXiv](https://img.shields.io/badge/arXiv-2507.00402-b31b1b.svg)](https://arxiv.org/abs/2507.00402)
+![Version](https://img.shields.io/badge/version-v0.1.3-blue.svg) [![CRAN](https://img.shields.io/badge/CRAN-available-brightgreen.svg)](https://CRAN.R-project.org/package=GRANDpriv) [![arXiv](https://img.shields.io/badge/arXiv-2507.00402-b31b1b.svg)](https://arxiv.org/abs/2507.00402)
 
 ## Overview
 
