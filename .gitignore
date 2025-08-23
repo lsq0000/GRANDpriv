@@ -1,0 +1,46 @@
+# R package build artifacts
+.Rcheck/
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# Compiled object files
+*.o
+*.so
+*.dll
+
+# R CMD check results
+*.Rcheck/
+
+# RStudio files
+.Rproj.user/
+*.Rproj
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Temporary files
+*~
+*.tmp
+*.bak
+
+# LaTeX
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+
+# Documentation build files
+vignettes/*.html
+vignettes/*.pdf
+inst/doc/
+
+# pkgdown site
+docs/
