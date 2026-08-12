@@ -89,7 +89,7 @@ DIP.multivariate <- function(Z, ep, X, rho = 0.05) {
   s <- dim(Z)[1]
   n <- dim(X)[1]
 
-  disc_ind <- sapply(1:p, function(j) length(unique(Z[, j])) < s)
+  disc_ind <- sapply(1:p, function(j) length(unique(Z[, j])) < s / 2)
   p1 <- sum(disc_ind)
 
   XC <- X
@@ -100,8 +100,10 @@ DIP.multivariate <- function(Z, ep, X, rho = 0.05) {
   ZCdip <- ZC
   ZCdip[, 1] <- DIP.univariate(ZC[, 1], ep / p, "empirical", list("continuous", XC[, 1]))
 
-  for (j in 2:p) {
-    ZCdip[, j] <- DIP.conditional(ZC[, j], ZCdip[, 1:(j - 1)], ZC[, 1:(j - 1)], ep / p, XC, rho)
+  if (p > 1) {
+    for (j in 2:p) {
+      ZCdip[, j] <- DIP.conditional(ZC[, j], ZCdip[, 1:(j - 1)], ZC[, 1:(j - 1)], ep / p, XC, rho)
+    }
   }
 
   Zdip <- ZCdip
