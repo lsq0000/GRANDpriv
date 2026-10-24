@@ -1,7 +1,7 @@
 Package: GRANDpriv
 Type: Package
 Title: Graph Release with Assured Node Differential Privacy
-Version: 0.1.4
+Version: 0.2.0
 Authors@R: c(person(given = "Suqing",
                     family = "Liu", 
                     email = "liusuqing0123@uchicago.edu", 
@@ -25,7 +25,6 @@ Imports:
     EnvStats,
     rmutil,
     RSpectra,
-    diffpriv,
     truncnorm,
     randnet,
     igraph,

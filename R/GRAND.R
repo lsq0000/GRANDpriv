@@ -1,13 +1,10 @@
 #' @importFrom RSpectra eigs_sym
-#' @importFrom diffpriv DPParamsEps DPMechLaplace releaseResponse
 #' @importFrom truncnorm rtruncnorm
-#' @importFrom stats glm binomial lm
+#' @importFrom stats glm binomial lm rexp
 #' @importFrom randnet LSM.PGD
 #' @importFrom igraph graph.adjacency degree count_triangles eigen_centrality harmonic_centrality
 #' @importFrom HCD gen.A.from.P
 #' @importFrom transport wasserstein1d
-
-f <- function(X) X
 
 ase <- function(A, K) {
   A2 <- t(A) %*% A
@@ -18,15 +15,18 @@ ase <- function(A, K) {
 }
 
 Add.Laplace <- function(X, eps = 1) {
+  if (!is.numeric(eps) || length(eps) != 1L || is.na(eps) || eps <= 0) {
+    stop("\u03B5 should be a positive numeric scalar.", call. = FALSE)
+  }
+
   p <- ncol(X)
   n <- nrow(X)
-  pparams <- DPParamsEps(epsilon = eps / p)
   X_lap <- X
 
   for (j in 1:p) {
-    mechanism <- DPMechLaplace(target = f, sensitivity = max(abs(X[, j])), dims = n)
-    r_lap <- releaseResponse(mechanism, privacyParams = pparams, X = X[, j])
-    X_lap[, j] <- r_lap$response
+    scale <- max(abs(X[, j])) / (eps / p)
+    noise <- rexp(n, rate = 1 / scale) - rexp(n, rate = 1 / scale)
+    X_lap[, j] <- X[, j] + noise
   }
 
   return(X_lap)

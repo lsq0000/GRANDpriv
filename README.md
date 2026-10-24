@@ -1,6 +1,6 @@
 # GRANDpriv: Graph Release with Assured Node Differential Privacy
 
-[![Version](https://img.shields.io/badge/version-v0.1.4-blue.svg)](https://github.com/lsq0000/GRANDpriv) [![CRAN](https://img.shields.io/badge/CRAN-available-brightgreen.svg)](https://CRAN.R-project.org/package=GRANDpriv) [![arXiv](https://img.shields.io/badge/arXiv-2507.00402-b31b1b.svg)](https://arxiv.org/abs/2507.00402)
+[![Version](https://img.shields.io/badge/version-v0.2.0-blue.svg)](https://github.com/lsq0000/GRANDpriv) [![CRAN](https://img.shields.io/badge/CRAN-available-brightgreen.svg)](https://CRAN.R-project.org/package=GRANDpriv) [![arXiv](https://img.shields.io/badge/arXiv-2507.00402-b31b1b.svg)](https://arxiv.org/abs/2507.00402)
 
 ## Overview
 
@@ -33,12 +33,13 @@ The package requires the following R packages:
 - EnvStats
 - rmutil  
 - RSpectra
-- diffpriv
 - truncnorm
 - randnet
 - igraph
 - HCD
 - transport
+
+Version 0.2.0 removes the dependency on `diffpriv`.
 
 ## Quick Start
 
